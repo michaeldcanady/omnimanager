@@ -31,7 +31,7 @@ jobs:
           args: >-
             --verbose
             --timeout=5m
-            --config=.golangci.yml
+            #--config=.golangci.yml
             --max-issues-per-linter=0
             --max-same-issues=0
             --modules-download-mode=readonly
