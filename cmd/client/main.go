@@ -6,6 +6,7 @@ import (
 	"github.com/Microsoft/go-winio"
 )
 
+// Example client
 func main() {
 	pipePath := `\\.\pipe\your_pipe_name`
 	f, err := winio.DialPipe(pipePath, nil)
