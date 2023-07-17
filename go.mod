@@ -1,10 +1,12 @@
-module github.com/michaeldcanady/omnimanager
+module github.com/michaeldcanady/omnimanageragent
 
 go 1.20
 
 require (
+	github.com/Microsoft/go-winio v0.6.1
+	github.com/michaeldcanady/omnimanager v0.0.0-20230717205832-af8e6ee69858
 	github.com/mitchellh/cli v1.1.5
-	golang.org/x/sys v0.0.0-20190412213103-97732733099d
+	golang.org/x/sys v0.10.0
 )
 
 require (
@@ -27,4 +29,6 @@ require (
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	golang.org/x/mod v0.8.0 // indirect
+	golang.org/x/tools v0.6.0 // indirect
 )
