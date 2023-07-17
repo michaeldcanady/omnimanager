@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/sys/windows/registry"
 
-	"github.com/michaeldcanady/omnimanager/internal/policy"
+	"github.com/michaeldcanady/omnimanageragent/internal/policy"
 )
 
 const basePath = "SOFTWARE\\{CompanyName}\\PolicyManager\\Provider"

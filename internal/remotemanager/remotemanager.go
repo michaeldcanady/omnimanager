@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/michaeldcanady/omnimanager/internal/policy"
+	"github.com/michaeldcanady/omnimanageragent/internal/policy"
 )
 
 // RemoteManager is a struct that holds the configuration for making HTTP requests to the API endpoint.
