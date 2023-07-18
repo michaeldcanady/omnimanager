@@ -44,23 +44,40 @@ func (m *RemoteManager) GetDeviceConfigurations() ([]policy.Configuration, error
 }
 
 // Get performs a GET request to the API endpoint and returns the response data.
+//func (m *RemoteManager) Get(endpoint string) ([]byte, error) {
+//	url := m.URL + endpoint
+//	resp, err := m.Client.Get(url)
+//	if err != nil {
+//		return nil, fmt.Errorf("GET request failed: %w", err)
+//	}
+//	defer resp.Body.Close()
+//	if resp.StatusCode != http.StatusOK {
+//		return nil, fmt.Errorf("GET request returned non-OK status code: %d", resp.StatusCode)
+//	}
+//
+//	body, err := readResponseBody(resp)
+//	if err != nil {
+//		return nil, fmt.Errorf("error reading response body: %w", err)
+//	}
+//
+//	return body, nil
+//}
+
+// Get performs a GET request to the API endpoint and returns the response data.
 func (m *RemoteManager) Get(endpoint string) ([]byte, error) {
-	url := m.URL + endpoint
-	resp, err := m.Client.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("GET request failed: %w", err)
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("GET request returned non-OK status code: %d", resp.StatusCode)
-	}
-
-	body, err := readResponseBody(resp)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
-	}
-
-	return body, nil
+	return json.Marshal([]policy.Configuration{
+		{
+			Id:          "dfdfd-dfdfd-fdfdfdf-dfdfddf",
+			DisplayName: "Example",
+			Settings: []policy.Setting{
+				{
+					DisplayName: "",
+					Uri:         "./device/setting_name",
+					Value:       "testing",
+				},
+			},
+		},
+	})
 }
 
 // readResponseBody reads the response body and returns it as a byte slice.

@@ -1,18 +1,15 @@
 package policy
 
-import (
-	"fmt"
-	"reflect"
-)
+type Setting struct {
+	DisplayName string
+	Uri         string
+	Value       any
+}
 
-type Setting interface{}
-
-func NewSetting(DisplayName string, Uri string, Value any) (Setting, error) {
-	valueType := reflect.TypeOf(Value)
-	switch valueType.Kind() {
-	case reflect.String:
-		return newSettingString(DisplayName, Uri, Value.(string)), nil
-	default:
-		return nil, fmt.Errorf("unable supported setting type: %t", Value)
+func NewSetting(DisplayName string, Uri string, Value any) Setting {
+	return Setting{
+		DisplayName: DisplayName,
+		Uri:         Uri,
+		Value:       Value,
 	}
 }

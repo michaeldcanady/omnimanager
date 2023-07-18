@@ -18,5 +18,8 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.AddCommand(syncCmd)
+	syncCmd.Flags().Bool("device", true, "Specify to sync only device policies")
+	applyCmd.Flags().Bool("device", true, "Specify to apply only device policies")
+	policyCmd.AddCommand(syncCmd, applyCmd)
+	rootCmd.AddCommand(policyCmd)
 }

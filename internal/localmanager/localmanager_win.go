@@ -13,7 +13,11 @@ import (
 	"github.com/michaeldcanady/omnimanageragent/internal/policy"
 )
 
-const basePath = "SOFTWARE\\{CompanyName}\\PolicyManager\\Provider"
+const (
+	basePath = "SOFTWARE\\{CompanyName}\\PolicyManager\\Provider"
+	basePolicyPath = basePath + "\\Provider"
+	basePolicyTemplatePath = basePath + "\\Templates"
+)
 
 type LocalManagerWin struct {
 }
@@ -25,7 +29,7 @@ func newLocalManager() (*LocalManagerWin, error) {
 func (m *LocalManagerWin) CacheDeviceConfiguration(policy *policy.Configuration) error {
 
 	// Access base key
-	key, err := registry.OpenKey(registry.LOCAL_MACHINE, basePath, registry.ALL_ACCESS)
+	key, err := registry.OpenKey(registry.LOCAL_MACHINE, basePolicyPath, registry.ALL_ACCESS)
 	if err != nil {
 		return fmt.Errorf("failed to open registry key: %w", err)
 	}
@@ -39,11 +43,15 @@ func (m *LocalManagerWin) CacheDeviceConfiguration(policy *policy.Configuration)
 	return m.UpdateCachedDeviceConfiguration(policy, policyKey)
 }
 
+func (m *LocalManagerWin) UploadPolicyTemplate() {
+
+}
+
 func (m *LocalManagerWin) UpdateCachedDeviceConfiguration(policy *policy.Configuration, registryKey registry.Key) error {
 
 	err := m.SetValue(registryKey, "DisplayName", policy.DisplayName)
 	if err != nil {
-		return fmt.Errorf("unable to set 'DisplayName' to %w: %w", policy.DisplayName, err)
+		return fmt.Errorf("unable to set 'DisplayName' to %v: %w", policy.DisplayName, err)
 	}
 
 	for _, setting := range policy.Settings {
@@ -59,7 +67,7 @@ func (m *LocalManagerWin) UpdateCachedDeviceConfiguration(policy *policy.Configu
 // RetrieveDeviceConfiguration retrieves cached device configuration
 func (m *LocalManagerWin) RetrieveDeviceConfiguration(id string) (*policy.Configuration, error) {
 	// Access base key
-	key, err := registry.OpenKey(registry.LOCAL_MACHINE, basePath+id, registry.ALL_ACCESS)
+	key, err := registry.OpenKey(registry.LOCAL_MACHINE, basePolicyPath+id, registry.ALL_ACCESS)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open registry key: %w", err)
 	}
@@ -84,10 +92,7 @@ func (m *LocalManagerWin) RetrieveDeviceConfiguration(id string) (*policy.Config
 		if err != nil {
 			return nil, fmt.Errorf("error getting value: %w", err)
 		}
-		setting, err := policy.NewSetting("", uri, value)
-		if err != nil {
-			return nil, fmt.Errorf("error marshalling setting: %w", err)
-		}
+		setting := policy.NewSetting("", uri, value)
 		configuration.Settings = append(configuration.Settings, setting)
 	}
 	return &configuration, nil
